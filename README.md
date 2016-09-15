@@ -125,18 +125,17 @@ This form is included in the template so you can further customize it to your sp
 A simple error logger is also included (which was adapted from [Microsoft ASP.NET error logging code](https://msdn.microsoft.com/en-us/library/bb397417.aspx)). With this error information recorded, you are no longer at the mercy of users' flawed memories! As coded, this logger writes error information to a file named `errorlog.txt` located in the same directory as the program's executable. When an unhandled exception occurs, the following text (which has been abbreviated here slightly for this article) is written to the log file: 
 
 ```
-Info: ********** 9/15/2016 9:51:41 AM **********
+Info: ********** 9/15/2016 11:36:40 AM **********
 Text: An unhandled UIThreadException occurred.
-Exception: ********** 9/15/2016 9:51:41 AM **********
-Exception Type: ASNA.VisualRPG.Runtime.ConnectionNotOpenException
-Exception: File Customer cannot be opened because a connection to database *PUBLIC/Cypress has not been established
+Exception: ********** 9/15/2016 11:36:40 AM **********
+Exception Type: System.ApplicationException
+Exception: This is an unhandled exception
 Stack Trace: 
-   at ASNA.VisualRPG.Runtime.DBFile.open(Database database, AccessMode accessMode, Boolean isCacheWrite, Boolean isCommit, ServerCursors serverCursor)
-   at StandardWindowsTemplate.Form2.Form2_Load(Object sender, EventArgs e) in C:\Users\roger\Documents\Programming\AVR\Other\StandardWindowsTemplate\StandardWindowsTemplate\Form2.vr:line 44
-   at System.Windows.Forms.Form.OnLoad(EventArgs e)
+   at StandardWindowsTemplate.Form2.linklabelThrowUnhandledException_LinkClicked(Object sender, LinkLabelLinkClickedEventArgs e) in C:\Users\roger\Documents\Programming\AVR\Other\StandardWindowsTemplate\StandardWindowsTemplate\Form2.vr:line 57
+   at System.Windows.Forms.LinkLabel.OnLinkClicked(LinkLabelLinkClickedEventArgs e)
 ```
 
-The amount of detail recorded in the log file is dictated by the presence of [the program's PDB file.](http://devcenter.wintellect.com/jrobbins/pdb-files-what-every-developer-must-know) If the program's PDB file (Program Database File) is present alongside the EXE the logging info includes the class name and the line number of code in that class where the error occured. Without the PDB, you still get good error information, but you don't get the line number where the error occurred.  
+The amount of detail recorded in the log file is dictated by the presence of [the program's PDB file.](http://devcenter.wintellect.com/jrobbins/pdb-files-what-every-developer-must-know) If the program's PDB file (Program Database File) is present alongside the EXE the logging info the line number of code in that class where the error occured. Without the PDB, you still get good error information, but you don't get the line number where the error occurred.  
 
 The Logger class is easy to use and could also be used from other places in your program where you need to log something. It currently offers three shared members. The `Info()` method the one you'd most likely use--it lets you write an arbitrary string to the log file. The `Exception` is used when you want to log an exception to log file. Usually you'll leave that to the global error handling. These methods are shared so you don't need to instance the `Logger` class to use them.
 
