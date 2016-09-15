@@ -34,9 +34,9 @@ BegClass Program
      | attribute to ensure the correct threading model for the program. The SecurityPermission 
      | attribute partially enables the global exception handling this class offers. 
      */
-//    BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread(), + 
-//                                                       SecurityPermission(SecurityAction.Demand))
-    BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread())
+    BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread(), + 
+                                                       SecurityPermission(SecurityAction.Demand,+
+                                                       Flags := SecurityPermissionFlag.ControlAppDomain ))
         DclSrParm Args Type(*String) Rank(1)
 
         InitializeProgram()
