@@ -6,11 +6,32 @@ This basic Windows template provides
 * A single database connection
 * Global exception handling with error logging
 
-### 
-
 ### Start-up program behavior
 
-A start-up program class that provides AVR Classic-like start-up program behavior. The `Main()` routine in the `Program` class is the program entry point. Command line arguments are available in `Main()` and can be used for things such as dynanimcally changing which of your program's forms display first.  
+A start-up program class that provides AVR Classic-like start-up program behavior. The `Main()` routine in the `Program` class is the program entry point. Command line arguments are available in `Main()` and can be used for things such as dynanimcally changing which of your program's forms display first.
+
+You can add variables to this `Program` class to make them globally available to all forms and other classes in your project. For example, as provided, the `Program` class offers one global variable named `pgmDB`. The code below shows another global variable added named `CustomerNumber`. Be sure to mark any global variable as `Shared(*Yes)` and `Access(*Public)`.  
+
+```
+BegClass Program
+
+    DclDB pgmDB DBName("*PUBLIC/Cypress") Shared(*Yes) Access(*Public)
+    DclFld CustomerNumber Type(*Integer4) Shared(*Yes) Access(*Public)
+
+    BegSr Main Shared(*Yes) Access(*Public) ... 
+```
+
+Later, in a form or another class, to use `CustomerNumber`, you only need to get or set it with its fully-qualified name like this: 
+
+```
+Chain Customer Key(Program.CustomerNumber)        
+```
+
+While this example shows `CustomerName` as a simple get/set field, you could also surface read-only properties or other types of data from the `Program` class--just be sure to mark the member `Shared(**Yes)` and `Access(**Public)`.   
+
+> Beware! The road to programming hell is paved with global variables. Ideally, you would never add global variables as mentioned above. Global variables tightly couple routines together that should generally not know anything about each other. This makes your program much harder to maintain and debug. So, add a few global variables if your needs demand them, but don't get carried away. 
+
+By the way, the "the road to programming hell..." quote from above is from Steve McConnell's [Code Complete, 2nd edition](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/ref=sr_1_1?ie=UTF8&qid=1473953357&sr=8-1&keywords=code+complete). This book is highly recommended and guaranteed to make you a better programmer.  
 
 ### A single database connection
 
@@ -73,15 +94,15 @@ EndClass
 
 Declare a local (to the form) DclDB connection and as many files as your form needs as you normally would. This local DB connection will be used for compile-time purposes. At runtime, in the Form's load event, use this line:
 
-    *This.pgmDB = Program.DB 
+        *This.pgmDB = Program.DB 
 
-to assign the local database connection to the `Program` class's global database connection. You must take care to ensure *every* form assigns its local DB to the global one. Otherwise, you'll start more jobs than necessary on your database server.  
+to assign the local database connection to the `Program` class's global  database connection. You must take care to ensure *every* form assigns its local DB to the global one. Otherwise, you'll start more jobs than necessary on your database server.  
 
 The database connection was opened in the `Program` class. Be sure to do this assignment before you open any files. After the assignment, open as many files as necessary in your form.
 
 In the `FormClosing` event, use 
 
-    Close *All 
+        Close *All 
 
 to close all files when the form closes. The easiest way to ensure all files are closed is using `\*All` with `Close` instead of trying to remember what files got opened. \*All is safer and easier. Be sure to *not* close the DclDB connection in your forms. It is closed automatically when the program ends. 
 
@@ -115,8 +136,21 @@ Stack Trace:
    at System.Windows.Forms.Form.OnLoad(EventArgs e)
 ```
 
-The amount of detail recorded in the log file is dictated by the presence of [the program's PDB file.](http://devcenter.wintellect.com/jrobbins/pdb-files-what-every-developer-must-know) If the program's PDB file(Program Database File) is present alongside the EXE, the logging info includes the class name and the line number of code in that class where the error occured. Without the PDB, you still get good error information, but you don't get the line number where the error occurred.  
+The amount of detail recorded in the log file is dictated by the presence of [the program's PDB file.](http://devcenter.wintellect.com/jrobbins/pdb-files-what-every-developer-must-know) If the program's PDB file (Program Database File) is present alongside the EXE the logging info includes the class name and the line number of code in that class where the error occured. Without the PDB, you still get good error information, but you don't get the line number where the error occurred.  
+
+The Logger class is easy to use and could also be used from other places in your program where you need to log something. It currently offers three shared members. The `Info()` method the one you'd most likely use--it lets you write an arbitrary string to the log file. The `Exception` is used when you want to log an exception to log file. Usually you'll leave that to the global error handling. These methods are shared so you don't need to instance the `Logger` class to use them.
+
+```
+Logger.Info('An unhandled domain exception occurred.') 
+Logger.Exception(ex)
+```        
+
+The third `Logger` method is `NotifySystemOps`. That method doens't currently do anything but rather is provided as a jumping off place for you to add custom code to notify a system operator when an unhandled exception occurs. 
+
+Logging errors during an unhandled exception is a bit of a gamble. For example, if the unhandled exception occurred because the user's disk is file, the code to log that error to a text file is gonna fail! That's not likely happen very often, an errant DB connection is far more likely to cause an unhandled exception. That's why errors are written to a text file instead to a database file. We'd like to avoid causing an unhandled exception logging an unhandled exception!     
 
 > Beware that when deployed, you may encounter write errors trying to write to the folder where the EXE resides. If that's the case, consider logging the errors to users's `Documents` folder or some other location where you know write authorities exist.
 
 Like the error form itself, the logging code is included in the template so that you can further customize it if necessary. 
+
+To test unhandled exception handling in the template, click the `Throw unhandled exception` link label on `Form2.`  

@@ -39,7 +39,7 @@ BegClass Form2 Extends(System.Windows.Forms.Form) Access(*Public) Partial(*Yes)
 		DclSrParm sender Type(*Object)
 		DclSrParm e Type(System.EventArgs)
 
-        //*This.pgmDB = Program.pgmDB
+        *This.pgmDB = Program.pgmDB
         Open Customer 
 	EndSr
 
@@ -54,8 +54,7 @@ BegClass Form2 Extends(System.Windows.Forms.Form) Access(*Public) Partial(*Yes)
 		DclSrParm sender Type(*Object)
 		DclSrParm e Type(System.Windows.Forms.LinkLabelLinkClickedEventArgs)
 
-        //Throw *New ApplicationException("This is an unhandled exception")
-        //Throw *New ApplicationException("Couldn't open This is an unhandled exception")
+        Throw *New ApplicationException("This is an unhandled exception")
 	EndSr
 	
 EndClass

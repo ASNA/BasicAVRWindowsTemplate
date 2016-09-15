@@ -60,7 +60,7 @@
     <Compile Include="Form2.vr">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="logging.vr">
+    <Compile Include="Logger.vr">
       <SubType>
       </SubType>
     </Compile>

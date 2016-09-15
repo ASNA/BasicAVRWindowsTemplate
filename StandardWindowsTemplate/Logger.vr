@@ -72,6 +72,8 @@ BegClass Logger Access(*Public) Modifier(*NotExtensible)
             sw.WriteLine()
         EndIf
 
+        NotifySystemOps(exc) 
+
         sw.Close()
     EndSr
 

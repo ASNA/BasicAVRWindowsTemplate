@@ -26,7 +26,7 @@ BegClass Program
      | connections or database files in an AVR for .NET Web app! The shared DB technique
      | shown here is for Windows applications only.
      */
-    DclDB pgmDB DBName( "*PUBLIC/Cypress" ) Shared(*Yes) Access(*Public) 
+    DclDB pgmDB DBName("*PUBLIC/Cypress") Shared(*Yes) Access(*Public) 
         
     /* 
      | This subroutine is the program entry point. It must be named `Main` and it must 
