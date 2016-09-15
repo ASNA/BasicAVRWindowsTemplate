@@ -1,0 +1,135 @@
+﻿/* This class provides the entry point for the AVR Windows program. If you've written 
+ | AVR Classic Windows apps, you'd probably consider this the startup program. This 
+ | class represents the AVR for .NET funcational equivalent to the old AVR Classic 
+ | startup program.
+ |
+ | To make this class's `Main()` method startup object for your AVR for .NET Windows program, 
+ | give the project focus in the `Solution Explorer` to show the project's properties. In the 
+ | Startup object dropdown, select `BegSr Main` (shown in the image below).  
+ | 
+ | ![](https://asna.com/media/images/begsrmain-3.png)
+ | [<small>Show larger image</small>](https://asna.com/media/images/begsrmainlarge-1.png)
+ */
+ 
+Using System
+Using System.Collections
+Using System.Text
+Using System.Windows.Forms 
+Using System.Security.Permissions
+Using System.Threading
+
+BegClass Program
+    /*
+     | This database object _must_ be declared `Shared(*Yes)` and `Access(*Public)`.
+     | It provides the [program](https://asna.com) with its runtime database connection.
+     | Note: under no circumstances should you ever use Share(*Yes) with either database 
+     | connections or database files in an AVR for .NET Web app! The shared DB technique
+     | shown here is for Windows applications only.
+     */
+    DclDB pgmDB DBName( "*PUBLIC/Cypress" ) Shared(*Yes) Access(*Public) 
+        
+    /* 
+     | This subroutine is the program entry point. It must be named `Main` and it must 
+     | be shared and public. It must also be assigned the [System.STAThread](http://bit.ly/1UOQ5Lv) 
+     | attribute to ensure the correct threading model for the program. The SecurityPermission 
+     | attribute partially enables the global exception handling this class offers. 
+     */
+    BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread(), + 
+                                                       SecurityPermission(SecurityAction.Demand))
+        DclSrParm Args Type(*String) Rank(1)
+
+        InitializeProgram()
+
+        // If a DBName key exists in this app's resource file, use it to override
+        // the compile-time database name at runtime. 
+        If Resource.ResourceManager.GetString("DBName") <> *Nothing
+            pgmDB.DBName = Resource.ResourceManager.GetString("DBName")
+        EndIf
+
+        // With housekeeping out of the way, connect the database and display the first form. 
+        // The DB is disconnected just before the program exits.        
+        Connect pgmDB 
+        (*New Form1()).ShowDialog()
+        Disconnect pgmDB                 
+    EndSr
+
+    /*
+     | The code provides for catching unhandled exceptions and reporting 
+     | them from a single place. Unless you're silly curious or fully understand the .NET 
+     | Windows exception handling model, don't worry too much about the code below. It's there
+     | to show the ErrorForm form if an unhandled exception occurs.
+     |
+     | For the highly movtivated, the DomainExceptionHandler() and UIThreadExceptionHandler()
+     | methods below are where unhandled exceptions are caught. A nice enhancment to this 
+     | error handling technique would be adding error logging to those routines.
+     */
+    BegSr InitializeProgram Shared(*Yes)
+        DclFld currentDomain Type(AppDomain)
+
+        // Set application attributes. These two lines are done because C# does. 
+        // If it's good enough for C#, it's good enough for AVR!
+        Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(*False)
+ 
+        // Attempt to catch all unhandled exceptions. 
+        // When running your app from inside Visual Studio, Visual Studio always catches the 
+        // exception first. In that case, press F5 to continue and this exception handling 
+        // then runs/
+        // https://msdn.microsoft.com/en-us/library/ms157905(v=vs.110).aspx
+        AddHandler SourceObject(Application) SourceEvent(ThreadException) HandlerObject(program) +
+                   HandlerSr(UIThreadExceptionHandler)
+        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
+               
+        // https://msdn.microsoft.com/en-us/library/system.appdomain.unhandledexception(v=vs.110).aspx
+        currentDomain = AppDomain.CurrentDomain
+        AddHandler SourceObject(currentDomain) SourceEvent(UnhandledException) HandlerObject(Program)   +
+                   HandlerSr(DomainExceptionHandler) 
+    EndSr
+
+    /*
+     | As coded, I don't think the DomainExceptionHandler ever catches an exception. I think the other 
+     | interception takes precedence. This code was left intact just in case testing missed an edge case. 
+     | I don't think it matters, but the top level message includes in the word 'domain' if the exception
+     | is thrown from this handler.  
+     */
+    BegSr DomainExceptionHandler Shared(*Yes) 
+        DclSrParm Sender Type(*Object) 
+        DclSrParm Args Type(UnhandledExceptionEventArgs) 
+
+        DclFld ef Type(ErrorForm) 
+        DclFld ex Type(Exception)  
+
+        ex = Args.ExceptionObject *As Exception 
+        
+        Disconnect pgmDB 
+
+        Logger.Info('An unhandled domain exception occurred.') 
+        Logger.Exception(ex)                 
+
+        ef = *new ErrorForm()
+        ef.labelErrorMessage.Text = ex.Message
+        ef.labelTopLevelErrorMessage.Text = "An unrecoverable domain error occurred."
+        ef.ShowDialog()
+        Application.Exit()
+    EndSr
+
+    BegSr UIThreadExceptionHandler Shared(*Yes)
+        DclSrParm Sender Type(object)
+        DclSrParm t Type(ThreadExceptionEventArgs)
+
+        DclFld ef Type(ErrorForm) 
+
+        Disconnect pgmDB 
+       
+        Logger.Info('An unhandled UIThreadException occurred.') 
+        Logger.Exception(t.Exception)                 
+               
+        ef = *new ErrorForm()
+        ef.labelErrorMessage.Text = t.Exception.Message
+        ef.labelTopLevelErrorMessage.Text = "An unrecoverable error occurred."
+        ef.ShowDialog()
+        Application.Exit()
+    EndSr
+
+EndClass
+

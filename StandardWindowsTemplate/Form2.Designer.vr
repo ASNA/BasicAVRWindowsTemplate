@@ -1,0 +1,48 @@
+﻿DclNamespace StandardWindowsTemplate
+BegClass Form2 Partial(*Yes)
+
+	// Required method for Designer support - do not modify
+	// the contents of this method with the code editor.
+	BegSr InitializeComponent
+		*this.linklabelThrowUnhandledException = *new System.Windows.Forms.LinkLabel()
+		*this.SuspendLayout()
+		//
+		//linklabelThrowUnhandledException
+		//
+		*this.linklabelThrowUnhandledException.AutoSize = *True
+		*this.linklabelThrowUnhandledException.Location = *new System.Drawing.Point(24I, 126I)
+		*this.linklabelThrowUnhandledException.Name = "linklabelThrowUnhandledException"
+		*this.linklabelThrowUnhandledException.Size = *new System.Drawing.Size(139I, 13I)
+		*this.linklabelThrowUnhandledException.TabIndex = 0I
+		*this.linklabelThrowUnhandledException.TabStop = *True
+		*this.linklabelThrowUnhandledException.Text = "Throw unhandled exception"
+		//
+		//Form2
+		//
+		*this.AutoScaleDimensions = *new System.Drawing.SizeF(6, 13)
+		*this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+		*this.ClientSize = *new System.Drawing.Size(284I, 261I)
+		*this.Controls.Add(*this.linklabelThrowUnhandledException)
+		*this.Name = "Form2"
+		*this.Text = "Form2"
+		*this.ResumeLayout(*False)
+		*this.PerformLayout()
+	EndSr
+	
+	DclFld linklabelThrowUnhandledException Type(System.Windows.Forms.LinkLabel) Access(*Private) WithEvents(*Yes)
+	//Required by the Windows Form Designer
+	DclFld components Type(System.ComponentModel.IContainer) Inz(*Nothing)
+	
+	// Clean up any resources being used.
+	// "disposing" is true if managed resources should be disposed; otherwise, false.
+	BegSr Dispose Access(*Protected) Modifier(*Overrides)
+		DclSrParm disposing Type(*Boolean)
+
+		If (disposing *And (components *NE *Nothing))
+			components.Dispose()
+		EndIf
+			
+		*Base.Dispose(disposing)
+	EndSr
+	
+EndClass

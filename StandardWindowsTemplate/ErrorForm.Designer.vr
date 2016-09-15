@@ -1,0 +1,133 @@
+﻿DclNamespace StandardWindowsTemplate
+BegClass ErrorForm Partial(*Yes)
+
+	// Required method for Designer support - do not modify
+	// the contents of this method with the code editor.
+	BegSr InitializeComponent
+		DclFld resources Type(System.ComponentModel.ComponentResourceManager) New(*typeof(ErrorForm))
+		*this.label2 = *new System.Windows.Forms.Label()
+		*this.label1 = *new System.Windows.Forms.Label()
+		*this.button1 = *new System.Windows.Forms.Button()
+		*this.label3 = *new System.Windows.Forms.Label()
+		*this.pictureBox1 = *new System.Windows.Forms.PictureBox()
+		*this.labelTopLevelErrorMessage = *new System.Windows.Forms.Label()
+		*this.labelErrorMessage = *new System.Windows.Forms.Label()
+		(*this.pictureBox1 *As System.ComponentModel.ISupportInitialize).BeginInit()
+		*this.SuspendLayout()
+		//
+		//label2
+		//
+		*this.label2.AutoSize = *True
+		*this.label2.Font = *new System.Drawing.Font("Microsoft Sans Serif", 10, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (0 *As System.Byte))
+		*this.label2.Location = *new System.Drawing.Point(22I, 134I)
+		*this.label2.Name = "label2"
+		*this.label2.Size = *new System.Drawing.Size(70I, 17I)
+		*this.label2.TabIndex = 1I
+		*this.label2.Text = "Error text:"
+		//
+		//label1
+		//
+		*this.label1.AutoSize = *True
+		*this.label1.Font = *new System.Drawing.Font("Microsoft Sans Serif", 10, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (0 *As System.Byte))
+		*this.label1.Location = *new System.Drawing.Point(138I, 67I)
+		*this.label1.Name = "label1"
+		*this.label1.Size = *new System.Drawing.Size(302I, 17I)
+		*this.label1.TabIndex = 2I
+		*this.label1.Text = "Please make a note of the error text below and"
+		//
+		//button1
+		//
+		*this.button1.Anchor = (((System.Windows.Forms.AnchorStyles.Bottom *BitOr System.Windows.Forms.AnchorStyles.Left) *BitOr System.Windows.Forms.AnchorStyles.Right) *As System.Windows.Forms.AnchorStyles)
+		*this.button1.Font = *new System.Drawing.Font("Microsoft Sans Serif", 10, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (0 *As System.Byte))
+		*this.button1.Location = *new System.Drawing.Point(221I, 285I)
+		*this.button1.Name = "button1"
+		*this.button1.Size = *new System.Drawing.Size(164I, 46I)
+		*this.button1.TabIndex = 3I
+		*this.button1.Text = "Click to close your app"
+		*this.button1.UseVisualStyleBackColor = *True
+		//
+		//label3
+		//
+		*this.label3.AutoSize = *True
+		*this.label3.Font = *new System.Drawing.Font("Microsoft Sans Serif", 10, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (0 *As System.Byte))
+		*this.label3.Location = *new System.Drawing.Point(138I, 85I)
+		*this.label3.Name = "label3"
+		*this.label3.Size = *new System.Drawing.Size(244I, 17I)
+		*this.label3.TabIndex = 4I
+		*this.label3.Text = "then notify your system administrator."
+		//
+		//pictureBox1
+		//
+		*this.pictureBox1.Image = (resources.GetObject("pictureBox1.Image") *As System.Drawing.Image)
+		*this.pictureBox1.Location = *new System.Drawing.Point(25I, 12I)
+		*this.pictureBox1.Name = "pictureBox1"
+		*this.pictureBox1.Size = *new System.Drawing.Size(100I, 96I)
+		*this.pictureBox1.TabIndex = 5I
+		*this.pictureBox1.TabStop = *False
+		//
+		//labelTopLevelErrorMessage
+		//
+		*this.labelTopLevelErrorMessage.AutoSize = *True
+		*this.labelTopLevelErrorMessage.Font = *new System.Drawing.Font("Microsoft Sans Serif", 12, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (0 *As System.Byte))
+		*this.labelTopLevelErrorMessage.Location = *new System.Drawing.Point(137I, 37I)
+		*this.labelTopLevelErrorMessage.Name = "labelTopLevelErrorMessage"
+		*this.labelTopLevelErrorMessage.Size = *new System.Drawing.Size(240I, 20I)
+		*this.labelTopLevelErrorMessage.TabIndex = 6I
+		*this.labelTopLevelErrorMessage.Text = "An unrecoverable error occurred."
+		//
+		//labelErrorMessage
+		//
+		*this.labelErrorMessage.AutoSize = *True
+		*this.labelErrorMessage.Font = *new System.Drawing.Font("Microsoft Sans Serif", 12, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (0 *As System.Byte))
+		*this.labelErrorMessage.Location = *new System.Drawing.Point(21I, 178I)
+		*this.labelErrorMessage.Name = "labelErrorMessage"
+		*this.labelErrorMessage.Size = *new System.Drawing.Size(51I, 20I)
+		*this.labelErrorMessage.TabIndex = 9I
+		*this.labelErrorMessage.Text = "label1"
+		//
+		//ErrorForm
+		//
+		*this.AutoScaleDimensions = *new System.Drawing.SizeF(6, 13)
+		*this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+		*this.ClientSize = *new System.Drawing.Size(605I, 347I)
+		*this.ControlBox = *False
+		*this.Controls.Add(*this.labelErrorMessage)
+		*this.Controls.Add(*this.labelTopLevelErrorMessage)
+		*this.Controls.Add(*this.pictureBox1)
+		*this.Controls.Add(*this.label3)
+		*this.Controls.Add(*this.button1)
+		*this.Controls.Add(*this.label1)
+		*this.Controls.Add(*this.label2)
+		*this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
+		*this.MinimumSize = *new System.Drawing.Size(621I, 0I)
+		*this.Name = "ErrorForm"
+		*this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+		*this.Text = "We're sorry! "
+		(*this.pictureBox1 *As System.ComponentModel.ISupportInitialize).EndInit()
+		*this.ResumeLayout(*False)
+		*this.PerformLayout()
+	EndSr
+	
+	DclFld label2 Type(System.Windows.Forms.Label) Access(*Private) WithEvents(*Yes)
+	DclFld label1 Type(System.Windows.Forms.Label) Access(*Private) WithEvents(*Yes)
+	DclFld button1 Type(System.Windows.Forms.Button) Access(*Private) WithEvents(*Yes)
+	DclFld label3 Type(System.Windows.Forms.Label) Access(*Private) WithEvents(*Yes)
+	DclFld pictureBox1 Type(System.Windows.Forms.PictureBox) Access(*Private) WithEvents(*Yes)
+	DclFld labelErrorMessage Type(System.Windows.Forms.Label) Access(*Public) WithEvents(*Yes)
+	DclFld labelTopLevelErrorMessage Type(System.Windows.Forms.Label) Access(*Public) WithEvents(*Yes)
+	//Required by the Windows Form Designer
+	DclFld components Type(System.ComponentModel.IContainer) Inz(*Nothing)
+	
+	// Clean up any resources being used.
+	// "disposing" is true if managed resources should be disposed; otherwise, false.
+	BegSr Dispose Access(*Protected) Modifier(*Overrides)
+		DclSrParm disposing Type(*Boolean)
+
+		If (disposing *And (components *NE *Nothing))
+			components.Dispose()
+		EndIf
+			
+		*Base.Dispose(disposing)
+	EndSr
+	
+EndClass

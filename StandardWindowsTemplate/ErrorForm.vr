@@ -1,0 +1,49 @@
+﻿Using System
+Using System.Collections
+Using System.ComponentModel
+Using System.Data
+Using System.Drawing
+Using System.Text
+Using System.Windows.Forms
+
+DclNamespace StandardWindowsTemplate
+
+BegClass ErrorForm Extends(System.Windows.Forms.Form) Access(*Public) Partial(*Yes)
+
+	/region Default Constructor
+	
+	BegConstructor Access(*Public)
+		//
+		// Required for Windows Form Designer support
+		//
+		InitializeComponent()
+
+		//
+		// TODO: Add any constructor code after InitializeComponent call
+		//
+	EndConstructor
+
+	/endregion
+
+    BegSr ErrorForm_Load Access(*Private) Event(*this.Load)
+        DclSrParm sender *Object
+        DclSrParm e System.EventArgs
+
+        labelErrorMessage.MaximumSize = *New Size(*This.Width - 50, 0)
+    EndSr
+    
+	BegSr button1_Click Access(*Private) Event(*this.button1.Click)
+		DclSrParm sender Type(*Object)
+		DclSrParm e Type(System.EventArgs)
+
+        *This.Close()
+	EndSr
+	
+	BegSr ErrorForm_Resize Access(*Private) Event(*this.Resize)
+		DclSrParm sender Type(*Object)
+		DclSrParm e Type(System.EventArgs)
+
+        labelErrorMessage.MaximumSize = *New Size(*This.Width - 50, 0)
+	EndSr
+	
+EndClass

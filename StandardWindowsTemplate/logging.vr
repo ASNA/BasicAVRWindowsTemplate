@@ -1,0 +1,84 @@
+﻿/*
+ | This logging facility was derived from Microsoft code that can be 
+ | found here:
+ | https://msdn.microsoft.com/en-us/library/bb397417.aspx
+*/
+
+Using System
+Using System.IO
+
+BegClass Logger Access(*Public) Modifier(*NotExtensible) 
+
+    BegFunc GetLogFileStream Type(StreamWriter) Access(*Private) Shared(*Yes)
+        DclFld LogFile Type(*String) 
+        DclFld sw Type(StreamWriter)
+
+        DclFld LogFileLocation Type(*String) 
+
+        LogFileLocation = IO.Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly().Location)        
+        LogFile = LogFileLocation + '\errorlog.txt'        
+
+        sw = *New StreamWriter(LogFile, *True)
+        LeaveSr sw
+    EndFunc 
+
+    BegSr Message Access(*Private) Shared(*Yes) 
+        DclSrParm MessageType Type(*String) 
+        DclSrParm Message     Type(*String) 
+
+        DclFld sw Type(StreamWriter)
+
+        sw = GetLogFileStream()
+
+        sw.WriteLine(MessageType + ": ********** {0} **********", DateTime.Now)
+        sw.WriteLine("Text: " + Message)
+
+        sw.Close()
+    EndSr 
+
+    BegSr Info Access(*Public) Shared(*Yes)
+        DclSrParm Message     Type(*String) 
+
+        Logger.Message("Info", Message)
+    EndSr
+    
+    BegSr Exception Access(*Public) Shared(*Yes) 
+        DclSrParm exc    Type(Exception)
+
+        DclFld sw Type(StreamWriter)
+
+        sw = GetLogFileStream()
+
+        // Open the log file for append and write the log
+        sw.WriteLine("Exception: ********** {0} **********", DateTime.Now)
+        If (exc.InnerException <> *Nothing)
+            sw.Write("Inner Exception Type: ")
+            sw.WriteLine(exc.InnerException.GetType().ToString())
+            sw.Write("Inner Exception: ")
+            sw.WriteLine(exc.InnerException.Message)
+            If (exc.InnerException.StackTrace <> *Nothing)
+                sw.WriteLine("Inner Stack Trace: ")
+                sw.WriteLine(exc.InnerException.StackTrace)
+            EndIf
+        EndIf
+
+        sw.Write("Exception Type: ")
+        sw.WriteLine(exc.GetType().ToString())
+        sw.WriteLine("Exception: " + exc.Message)
+        sw.WriteLine("Stack Trace: ")
+
+        If (exc.StackTrace <> *Nothing)
+            sw.WriteLine(exc.StackTrace)
+            sw.WriteLine()
+        EndIf
+
+        sw.Close()
+    EndSr
+
+    // Notify System Operators about an exception 
+    BegSr NotifySystemOps Access(*Public) Shared(*Yes) 
+        DclSrParm exc    Type(Exception)
+
+    EndSr
+
+EndClass

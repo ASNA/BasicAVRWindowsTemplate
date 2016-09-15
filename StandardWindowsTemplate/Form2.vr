@@ -1,0 +1,61 @@
+﻿Using System
+Using System.Collections
+Using System.ComponentModel
+Using System.Data
+Using System.Drawing
+Using System.Text
+Using System.Windows.Forms
+
+DclNamespace StandardWindowsTemplate
+
+BegClass Form2 Extends(System.Windows.Forms.Form) Access(*Public) Partial(*Yes)
+
+	/region Default Constructor
+	
+	BegConstructor Access(*Public)
+		//
+		// Required for Windows Form Designer support
+		//
+		InitializeComponent()
+
+		//
+		// TODO: Add any constructor code after InitializeComponent call
+		//
+	EndConstructor
+
+	/endregion
+    
+    DclDB pgmDB DBName( "*PUBLIC/Cypress" )
+
+    DclDiskFile  Customer +
+          Type( *Input  ) +
+          Org( *Indexed ) +
+          Prefix( Customer_ ) +
+          File( "Examples/CMastNewL1" ) +
+          DB( pgmDB ) +
+          ImpOpen( *No )
+
+	BegSr Form2_Load Access(*Private) Event(*this.Load)
+		DclSrParm sender Type(*Object)
+		DclSrParm e Type(System.EventArgs)
+
+        //*This.pgmDB = Program.pgmDB
+        Open Customer 
+	EndSr
+
+	BegSr Form2_FormClosing Access(*Private) Event(*this.FormClosing)
+		DclSrParm sender Type(*Object)
+		DclSrParm e Type(System.Windows.Forms.FormClosingEventArgs)
+
+        Close *All            
+	EndSr
+
+	BegSr linklabelThrowUnhandledException_LinkClicked Access(*Private) Event(*this.linklabelThrowUnhandledException.LinkClicked)
+		DclSrParm sender Type(*Object)
+		DclSrParm e Type(System.Windows.Forms.LinkLabelLinkClickedEventArgs)
+
+        //Throw *New ApplicationException("This is an unhandled exception")
+        //Throw *New ApplicationException("Couldn't open This is an unhandled exception")
+	EndSr
+	
+EndClass

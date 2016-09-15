@@ -1,0 +1,63 @@
+﻿Using System
+Using System.Collections
+Using System.ComponentModel
+Using System.Data
+Using System.Drawing
+Using System.Text
+Using System.Windows.Forms
+
+BegClass Form1 Extends(System.Windows.Forms.Form) Access(*Public) Partial(*Yes)
+
+    /region Default Constructor
+    
+    BegConstructor Access(*Public)
+        //
+        // Required for Windows Form Designer support
+        //
+        InitializeComponent()
+
+        //
+        // TODO: Add any constructor code after InitializeComponent call
+        //
+    EndConstructor
+
+    /endregion
+
+    DclDB pgmDB DBName( "*PUBLIC/Cypress" )
+
+    DclDiskFile  Customer +
+          Type( *Input  ) +
+          Org( *Indexed ) +
+          Prefix( Customer_ ) +
+          File( "Examples/CMastNewL1" ) +
+          DB( pgmDB ) +
+          ImpOpen( *No )
+
+        DclFld f2 Type(Form2) 
+
+    BegSr Form1_Load Access(*Private) Event(*this.Load)
+        DclSrParm sender *Object
+        DclSrParm e System.EventArgs
+
+        *This.pgmDB = Program.pgmDB
+        Open Customer 
+    EndSr
+
+    BegSr Form1_FormClosing Access(*Private) Event(*this.FormClosing)
+        DclSrParm sender Type(*Object)
+        DclSrParm e Type(System.Windows.Forms.FormClosingEventArgs)
+        
+        Close *All 
+    EndSr
+
+    BegSr linklabelShowForm2_LinkClicked Access(*Private) Event(*this.linklabelShowForm2.LinkClicked)
+        DclSrParm sender Type(*Object)
+        DclSrParm e Type(System.Windows.Forms.LinkLabelLinkClickedEventArgs)
+
+        If (f2 = *Nothing OR f2.IsDisposed)
+            f2 = *New Form2() 
+        EndIf 
+        f2.Show()
+    EndSr
+    
+EndClass
