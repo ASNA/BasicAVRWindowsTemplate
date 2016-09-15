@@ -122,7 +122,7 @@ With global exception handling in place, when an unhandled exception occurs, a f
 
 This form is included in the template so you can further customize it to your specifications.
 
-A simple error logger is also included (which was adapted from [Microsoft ASP.NET error logging code](https://msdn.microsoft.com/en-us/library/bb397417.aspx)). Without error logging, you're left to user's memory as to what the error was. As coded, this logger writes error information to a file named `errorlog.txt` located in the same directory as the program's executable. When an unhandled exception occurs, the following text (which has been abbreviated here slightly for this article) is written to the log file: 
+A simple error logger is also included (which was adapted from [Microsoft ASP.NET error logging code](https://msdn.microsoft.com/en-us/library/bb397417.aspx)). With this error information recorded, you are no longer at the mercy of users' flawed memories! As coded, this logger writes error information to a file named `errorlog.txt` located in the same directory as the program's executable. When an unhandled exception occurs, the following text (which has been abbreviated here slightly for this article) is written to the log file: 
 
 ```
 Info: ********** 9/15/2016 9:51:41 AM **********
